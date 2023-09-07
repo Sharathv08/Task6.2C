@@ -3,61 +3,48 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Use a build automation tool like Maven.
-                sh 'mvn clean package'
+                echo 'Building the code using a build automation tool to compile and package the code.'
+                echo 'installing mvn automation tool.'
+                echo 'performing maven operation.'
             }
         }
         stage('Unit and Integration Tests') {
             steps {
-                // Use testing frameworks like JUnit or TestNG.
-                sh 'mvn test'
+                echo 'Running unit test using Junit tool.'
+                echo 'Running integration test using Selenium tool.'
             }
         }
         stage('Code Analysis') {
             steps {
-                // Integrate a code analysis tool (e.g., SonarQube).
-                sh 'mvn sonar:sonar'
+                echo 'Performing code analysis using SonarQube tool.'
             }
         }
         stage('Security Scan') {
             steps {
-                // Integrate a security scanning tool (e.g., OWASP ZAP).
-                sh 'zap-cli quick-scan -t <target-url>'
+                echo 'Performing security scan on the code using OWASP ZAP tool.'
             }
         }
         stage('Deploy to Staging') {
             steps {
-                // Use deployment tools (e.g., AWS CodeDeploy) to deploy to staging.
-                sh 'aws deploy create-deployment --application-name <app-name> --deployment-group-name <group-name> --s3-location <s3-location>'
+                echo 'Deploying application to a staging server using AWS EC2 instance.'
             }
         }
         stage('Integration Tests on Staging') {
             steps {
-                // Run integration tests on the staging environment.
-                sh 'mvn integration-test'
+                echo 'Running integration tests on the staging environment.'
             }
         }
         stage('Deploy to Production') {
             steps {
-                // Use deployment tools to deploy to production.
-                sh 'aws deploy create-deployment --application-name <app-name> --deployment-group-name <group-name> --s3-location <s3-location>'
+                echo 'Deploying the application to a production server using AWS EC2 instance.'
             }
         }
     }
     post {
-        failure {
-            // Send email notification with logs on failure.
-            emailext subject: 'Pipeline Failed',
-                body: "Pipeline failed: ${currentBuild.currentResult}",
-                to: 'your-email@example.com'
-            archiveArtifacts 'target/*.jar' // Attach build artifacts
-        }
         success {
-            // Send email notification with logs on success.
-            emailext subject: 'Pipeline Succeeded',
+            emailext subject: 'Jenkins build Status',
                 body: "Pipeline succeeded: ${currentBuild.currentResult}",
-                to: 'your-email@example.com'
-            archiveArtifacts 'target/*.jar' // Attach build artifacts
+                to: 'sharathkumarv08@gmail.com'
         }
     }
 }

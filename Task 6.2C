@@ -42,8 +42,13 @@ pipeline {
     }
     post {
         success {
-            emailext subject: 'Jenkins build Status',
+            emailext subject: 'Jenkins Build Status',
                 body: "Pipeline succeeded: ${currentBuild.currentResult}",
+                to: 'sharathkumarv08@gmail.com'
+        }
+        failure {
+            emailext subject: 'Jenkins Build Status',
+                body: "Pipeline failed: ${currentBuild.currentResult}",
                 to: 'sharathkumarv08@gmail.com'
         }
     }
